@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Tab PAN-POT",
+  "description": "Capture a tab Audio Stream and Panport it with its window position",
+  "version": "0.9",
+  "icons": {
+    "16": "images/icon/icon_128.png",
+    "48": "images/icon/icon_128.png",
+    "128": "images/icon/icon_128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "19": "images/icon/icon_phone.png"
+    },
+    "default_title": "Tab PAN-POT"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "tabs",
+    "tabCapture",
+    "system.display"
+  ]
+}
