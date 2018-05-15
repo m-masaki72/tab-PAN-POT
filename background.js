@@ -59,7 +59,7 @@ class myTabCapture{
    }
 
    setPanValue(val){
-      this.panner.pan.setValueAtTime(val, audioCtx.currentTime);
+      this.panner.pan.setValueAtTime(val, audioCtx.currentTime+0.2);
    }
 
    refreshIcon(){
@@ -91,9 +91,12 @@ class myTabArray{
       this.surveillance = setInterval(() => {
          chrome.windows.getAll({"populate" : true}, (chromeWindows) => {
             chromeWindows.forEach((cw) =>{
-               let val = (cw.left + cw.width/2) / window.parent.screen.width - 1.0;
+               let val = (cw.left + cw.width/2) / window.parent.screen.width - 0.5;
                cw.tabs.forEach((tab) =>{
                   if(this.tabMap.has(tab.id)){
+                     console.log( window.parent.screen.width);
+                     console.log(cw.left + cw.width/2);
+                     console.log(val);
                      this.tabMap.get(tab.id).setPanValue(val);
                   }
 
