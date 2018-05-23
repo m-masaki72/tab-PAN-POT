@@ -89,14 +89,18 @@ class myTabArray{
    surveiStart(){
       this.surveiStop();
       this.surveillance = setInterval(() => {
+         this.getDispWidth();
          chrome.windows.getAll({"populate" : true}, (chromeWindows) => {
             chromeWindows.forEach((cw) =>{
-               let val = (cw.left + cw.width/2) / window.parent.screen.width - 0.5;
+               console.log(window);
+               let val;
+               if(this.displayWidth)
+                  val = (cw.left + cw.width/2) / this.displayWidth - 0.5
+               else
+                  val = (cw.left + cw.width/2) / window.parent.screen.width - 0.5;
+
                cw.tabs.forEach((tab) =>{
                   if(this.tabMap.has(tab.id)){
-                     console.log( window.parent.screen.width);
-                     console.log(cw.left + cw.width/2);
-                     console.log(val);
                      this.tabMap.get(tab.id).setPanValue(val);
                   }
 
@@ -139,6 +143,13 @@ class myTabArray{
       if(this.tabMap.has(tabID)){
          this.tabMap.get(tabID).refreshIcon();
       }
+   }
+
+   getDispWidth(){
+      let that = this;
+      chrome.storage.sync.get(["disp_x", "disp_y"], (items) => {
+         that.displayWidth = items.disp_x;
+      });
    }
 }
 
