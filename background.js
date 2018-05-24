@@ -59,7 +59,14 @@ class myTabCapture{
    }
 
    setPanValue(val){
-      this.panner.pan.setValueAtTime(val, audioCtx.currentTime+0.2);
+      if(val >= 1) val = 1;
+      else if(val <= -1) val = -1;
+      chrome.storage.sync.get(["rate"], (items) => {
+         if(items.rate){
+            val *= items.rate;
+            this.panner.pan.setValueAtTime(val, audioCtx.currentTime+0.2);
+         }
+      });
    }
 
    refreshIcon(){
@@ -92,12 +99,12 @@ class myTabArray{
          this.getDispWidth();
          chrome.windows.getAll({"populate" : true}, (chromeWindows) => {
             chromeWindows.forEach((cw) =>{
-               console.log(window);
+               //console.log(window);
                let val;
                if(this.displayWidth)
-                  val = (cw.left + cw.width/2) / this.displayWidth - 0.5
+                  val = (cw.left+cw.width/2)/this.displayWidth*2 - 1.0
                else
-                  val = (cw.left + cw.width/2) / window.parent.screen.width - 0.5;
+                  val = (cw.left+cw.width/2)/window.parent.screen.width*2 - 1,0;
 
                cw.tabs.forEach((tab) =>{
                   if(this.tabMap.has(tab.id)){
